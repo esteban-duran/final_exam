@@ -10,44 +10,59 @@ Para la configuración del sistema se requiere haber descargado previamente la i
 
 ###Creación de la máquina virtual
 Darle el nombre a la máquina y escoger la arquitectura del sistema operativo, en nuestro caso Red Hat 64 bits
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%201.PNG "Configuracion inicial")
 
 A continuación se establece el tamaño de la memoria RAM sugerida
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%202.PNG "Memoria RAM")
 
 Luego se establece el orden de arranque
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%203.PNG "Orden de arranque")
 
 Se escogen la cantidad de procesadores, la cantidad sugerida son 2
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%204.PNG "Procesadores")
 
 Se selecciona el ISO previamente descargado para arrancar en la unidad virtual de CD
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%205.PNG "Seleccion ISO")
 
 Se congifuran las interfaces de red para trabajar
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%206.PNG "Interfaz de red NAT")
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%207.PNG "Interfaz de red de puente")
 
 Una vez terminada la configuración se corre la máquina y se instala el sistema operativo
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%208.PNG "Instalacion de centos 7")
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%208.1.PNG "Instalacion de centos 7")
 
 Se escoge el idioma a mostrar, la configuración del teclado por defecto corresponde al lenguaje seleccionado
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%209.PNG "Lenguaje")
 
 Se escoge el disco virtual sobre el que se va a instalar el SO
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%209.1.PNG "Disco a instalar")
 
 Se configura la cuenta root
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2010.PNG "Cuenta root")
 
 Se configura la cuenta del usuario sin privilegios root
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2011.PNG "Cuenta alterna")
 
 Es necesario seleccionar para las interfaces de red la siguiente opcion
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2012.PNG "RED")
 
 Ahora todo en orden, es necesario reiniciar la máquina
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2013.PNG "Instalación finalizada")
 
 ****
@@ -60,6 +75,7 @@ Se verifica las interfaces de red y la ip asignada a la maquina con el siguiente
 # ip a
 ```
 Arroja el siguiente resultado
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2014.PNG "ip a")
 
 
@@ -69,6 +85,7 @@ Para verificar  el correcto funcionamiento de las interfaces de red es necesario
 # cd /etc/sysconfig/network-scripts/
 # ls
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2016.PNG "verificacion de red")
 
 Los archivos subrayados en rojo son las interfaces que se crearon en el momento de la configuración inicial, es necesario verificar que se ejecuten al iniciar la máquina virtual, los siguientes comandos nos ayudarán a esto
@@ -76,12 +93,14 @@ Los archivos subrayados en rojo son las interfaces que se crearon en el momento 
 ```
 # cat ifcfg-enp0s3
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2017.PNG "verificacion de red nat")
 
 
 ```
 # cat ifcfg-enp0s8
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2018.PNG "verificacion de red bridge")
 
 Una vez se rectifique el correcto funcionamento se instala el **firewallD** para un mejor manejo de los puertos, con el comando
@@ -89,6 +108,7 @@ Una vez se rectifique el correcto funcionamento se instala el **firewallD** para
 ```
 # yum install firewalld -y
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2020.PNG "verificacion de red nat")
 
 Una vez instalado se añade el puerto **9090** a los permitidos, que es sobre el cuál se ejecutará el servicio
@@ -96,12 +116,14 @@ Una vez instalado se añade el puerto **9090** a los permitidos, que es sobre el
 # firewall-cmd --zone=public --add-port=9090/tcp --permanent
 # firewall-cmd --reload
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2022.PNG "apertura puertos")
 
 Ahora es necesario verificar si el puerto fue añadido correctamente, para hacer esto se ejecuta el comando
 ```
 # firewall-cmd --list-all
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2025.PNG "Verificacion puertos")
 
 Luego se instala **netstat** 
@@ -120,32 +142,39 @@ Ahora se añade el usuario **python_user** a la lista de los privilegiados para 
 # visudo
 ```
 Se añade la siguiente linea
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2028.PNG "Nmap")
+
 Luego se ejecuta el comando
 ```
 # usermod -G wheel python_user
 ```
+
 Luego se instala el servicio **Wget**
 ```
 # yum install wget
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2030.PNG "Wget")
 
 Luego se instala el servicio **python**
 ```
-# yum install wget
+# yum install python
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2032.PNG "python")
 
 ```
 # cd /tmp
 # wget https://bootstrap.pypa.io/get-pip.py
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2031.PNG "python")
 ```
 # python get-pip.py
 # pip install virtualenv
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2033.PNG "python")
 
 ****
@@ -164,6 +193,7 @@ $ mkdir envs
 $ cd envs
 $ virtualenv flask_env
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2034.PNG "enviroments")
 
 #Activar un ambiente virtual
@@ -177,6 +207,7 @@ $ mkdir files_created
 $ vi files.py
 $ vi files_command.py
 ```
+
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2035.PNG "creacion de directorios")
 
 Cree un archivo de nombre **files.py**
@@ -280,27 +311,28 @@ $ python files.py
 ###Pruebas del servicio web (REST)
 ### files
 #### GET
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_GET "GET")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_GET.PNG "GET")
 #### POST
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_POST "POST")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_POST.PNG "POST")
 #### PUT
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_PUT "PUT")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_PUT.PNG "PUT")
 #### DELETE
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_DELETE "DELETE")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/files_DELETE.PNG "DELETE")
 
 ### files/recently_created
 #### GET
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_GET "GET")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_GET.PNG "GET")
 #### POST
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_POST "POST")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_POST.PNG "POST")
 #### PUT
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_PUT "PUT")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_PUT.PNG "PUT")
 #### DELETE
-![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_DELETE "DELETE")
+![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/recent_DELETE.PNG "DELETE")
 
 #Pruebas de Flask con Netstat
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2037.PNG "netstat 1")
 
 ![alt text](https://github.com/esteban-duran/final_exam/blob/master/images/pantallazo%2038.PNG "netstat 2")
+
 #Dirección al github de la solución
-https://github.com/esteban-duran/12103025-parcial_uno
+https://github.com/esteban-duran/final_exam
